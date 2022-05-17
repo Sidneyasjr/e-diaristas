@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      args:
+        user: sidney
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: sidney88/laravel8
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www/
+    restart: unless-stopped
+    networks:
+      - docker-laravel
+  
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports: 
+        - 8180:80
+    volumes: 
+        - ./:/var/www
+        - ./docker/nginx/:/etc/nginx/conf.d/
+    networks: 
+        - docker-laravel
+
+  mysql:
+    image: mysql:5.7.22
+    restart: unless-stopped
+    environment: 
+        MYSQL_DATABASE: ${DB_DATABASE}
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+        MYSQL_PASSWORD: ${DB_PASSWORD}
+        MYSQL_USER: ${DB_USERNAME}
+    volumes: 
+        - ./.docker/mysql/dbdata:/var/lib/mysql
+    ports: 
+        - 3388:3306
+    networks: 
+        - docker-laravel
+
+  redis:
+    image: redis:latest
+    networks: 
+        - docker-laravel
+
+networks:
+  docker-laravel:
+    driver: bridge
