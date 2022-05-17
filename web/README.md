@@ -1,21 +1,15 @@
 
-# Setup Docker Para Projetos Laravel
+# Projeto sistema administrativo da plataforma E-Diaristas
 
 ### Passo a passo
-Clone Repositório
-```sh
-git clone https://github.com/Sidneyasjr/laravel8-docker.git my-project
-cd my-project/
-```
-
-Crie o Arquivo .env
+#### Crie o Arquivo .env
 ```sh
 cd example-project/
 cp .env.example .env
 ```
 
 
-Atualize as variáveis de ambiente do arquivo .env
+#### Atualize as variáveis de ambiente do arquivo .env
 ```dosini
 APP_NAME=Laravel
 APP_URL=http://localhost:8180
@@ -37,28 +31,44 @@ REDIS_PORT=6379
 ```
 
 
-Suba os containers do projeto
+#### Suba os containers do projeto
 ```sh
 docker-compose up -d
 ```
 
 
-Acessar o container
+#### Acessar o container
 ```sh
 docker-compose exec app bash
 ```
 
 
-Instalar as dependências do projeto
+#### Instalar as dependências do projeto
 ```sh
 composer install
 ```
 
 
-Gerar a key do projeto Laravel
+#### Gerar a key do projeto Laravel
 ```sh
 php artisan key:generate
 ```
+
+#### Criar a estrutura no banco de dados
+
+```
+php artisan migrate
+```
+
+#### Criar o usuário admin
+
+```
+php artisan db:seed
+```
+
+Usuário criado admin@admin.com  
+Senha: 123123123
+
 
 
 Acesse o projeto
